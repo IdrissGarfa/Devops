@@ -9,16 +9,32 @@ const Form = () => {
 
     const toggleShowModal = () =>  setShowModal(!showModal);
 
+    const [postData, setPostData] = useState({
+        author: "",
+        post: "",
+        attached: ""
+    })
+
     return (
         <div className='w-full mt-8 px-3 md:px-3'>
 
-            <Modal showModal={showModal} setShowModal={setShowModal} />
+            <Modal
+                postData={postData}
+                setPostData={setPostData} 
+                showModal={showModal}
+                setShowModal={setShowModal}
+            />
 
             <div className='w-full bg-white rounded-lg p-4'>
                 <div className='flex gap-4 pt-2 pb-3 items-center'>
                     <img className='w-11 h-11 rounded-full' src="https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/319998606_844532930209108_8427934400275975120_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=psADqyzzMOIAX8q3fyb&_nc_ht=scontent.ftun16-1.fna&oh=00_AfBRSIB7G1GEYPm_2OW0Nap7yblL52UBqJ5Hz9iQjxQsXw&oe=63CFC6C6" alt="User" />
                     <div className='w-full'>
-                        <input onClick={toggleShowModal} className='w-full border-0 outline-none p-4 rounded-xl bg-gray-50 text-gray-800 focus:ring-0 text-sm' type="text" placeholder="Post something" />
+                        <input
+                            onClick={toggleShowModal}
+                            className='w-full border-0 outline-none p-4 rounded-xl bg-gray-50 text-gray-800 focus:ring-0 text-sm'
+                            type="text"
+                            value={postData.post}
+                            placeholder="Post something" />
                     </div>
                 </div>
                 
