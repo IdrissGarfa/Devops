@@ -3,14 +3,24 @@ import { BsImageFill } from 'react-icons/bs'
 import { CgPoll } from 'react-icons/cg'
 import { IoVideocamOutline } from 'react-icons/io5'
 import Modal from './Modal'
+import { useStateContext } from '../../../../context/StateContext'
 
 const Form = () => {
     const [showModal, setShowModal] = useState(false);
+    const [modalImage, setModalImage] = useState(false);
+
+    const { currentUser } = useStateContext(); 
+
+    console.log(currentUser);
 
     const toggleShowModal = () =>  setShowModal(!showModal);
 
     const [postData, setPostData] = useState({
-        author: "",
+        author: {
+            id: currentUser.user.id,
+            author: currentUser.user.name,
+            image: currentUser.user.image
+        },
         post: "",
         attached: ""
     })
@@ -23,11 +33,13 @@ const Form = () => {
                 setPostData={setPostData} 
                 showModal={showModal}
                 setShowModal={setShowModal}
+                modalImage={modalImage}
+                setModalImage={setModalImage}
             />
 
             <div className='w-full bg-white rounded-lg p-4'>
                 <div className='flex gap-4 pt-2 pb-3 items-center'>
-                    <img className='w-11 h-11 rounded-full' src="https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/319998606_844532930209108_8427934400275975120_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=psADqyzzMOIAX8q3fyb&_nc_ht=scontent.ftun16-1.fna&oh=00_AfBRSIB7G1GEYPm_2OW0Nap7yblL52UBqJ5Hz9iQjxQsXw&oe=63CFC6C6" alt="User" />
+                    <img className='w-11 h-11 rounded-full object-cover' src="https://img.freepik.com/free-photo/close-up-young-successful-man-smiling-camera-standing-casual-outfit-against-blue-background_1258-66609.jpg?w=2000" alt="User" />
                     <div className='w-full'>
                         <input
                             onClick={toggleShowModal}

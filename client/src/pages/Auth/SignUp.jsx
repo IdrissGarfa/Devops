@@ -1,32 +1,36 @@
 import React, { useState } from 'react'
-import { useFormik, validateYupSchema } from "formik";
+
+import { useNavigate } from "react-router-dom"
+
+import { FormikProvider, useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 
 import devopsBg from "../../../public/assets/devops.png";
 import devopsLogo from "../../../public/assets/logo.png";
 
-import { FaArrowRight } from "react-icons/fa";
-
 import { SiFacebook } from "react-icons/si";
 import { BsInstagram } from "react-icons/bs";
 import { IoLogoTwitter } from "react-icons/Io";
-import SignUpOne from '../../components/Auth/SignUpOne';
-import SignUpTwo from '../../components/Auth/SignUpTwo';
 
-const signupAPI = "http://localhost:8000/auth/signup";
+import SignUpOne from './Components/SignUpOne';
+import SignUpTwo from './Components/SignUpTwo';
+
+const signupAPI = "http://localhost:8000/api/auth/signup";
 
 const SignUp = () => {
 
   const [loading, setLoading] = useState(true);
   const [signUp, setSignUp] = useState(false);
 
+  const navigate = useNavigate()
+
   setInterval(() => {
     setLoading(false);
   }, 1000);
 
   const formik = useFormik({
-    
+
     initialValues: {
       email: "",
       phone: "",
@@ -36,15 +40,22 @@ const SignUp = () => {
       password: "",
       passwordConfirmation: ""
     },
-    isSubmitting: false,
-    isValidating: false,
+
+    onSubmit: (values) => {
+      axios.post(signupAPI,values)
+      .then((res) => {
+        console.log(res.data)
+        navigate("/signin");
+      })
+      .catch((err) => console.log(err));
+    },
+
     validationSchema: Yup.object({
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required")
       ,
       phone: Yup.number()
-        .typeError("Invalid phone number")
         .required("Phone is required"),
       firstName: Yup.string()
         .required("First name is required"),
@@ -66,16 +77,16 @@ const SignUp = () => {
 
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if(signUp === false) {
-      setSignUp(true);
-    }else if(signUp === true) {
-      axios.post(signupAPI, formik.values)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-    }
+  const validForm = [formik.values.email,formik.values.phone, formik.values.password ].every(Boolean) && formik.values.password === formik.values.passwordConfirmation;
+
+  const handleSubmit = async () => {
+      if (!signUp && validForm) {
+          setSignUp(!signUp)
+      }else if (signUp){
+        formik.submitForm();
+      }
   }
+
 
   return (
     <div className='flex h-screen'>
@@ -97,19 +108,25 @@ const SignUp = () => {
               </section>
               <section className="dark:bg-gray-900 flex-1">
                 <div className="flex flex-col items-center h-screen justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                  <div className='self-center mb-12 md:hidden'>
+                    <img className='h-12 w-26' src={devopsLogo} alt="Devops logo" />
+                  </div>
                   <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                      <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-800 md:text-4xl dark:text-white">
-                        Sign Up
-                      </h1>
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-800 md:text-4xl dark:text-white">
+                          Sign Up
+                        </h1>
+                      
                       <p className='text-sm leading-tight text-gray-700 md:text-md'>Join our devops community now!</p>
-                      {
-                        !signUp ? (
-                          <SignUpOne setSignUp={setSignUp} formik={formik} handleSubmit={handleSubmit}/>
-                        ) : (
-                          <SignUpTwo formik={formik} handleSubmit={handleSubmit} />
-                        )
-                      }
+                      <form className="space-y-4 md:space-y-6" onSubmit={formik.handleSubmit}>
+                        {
+                          !signUp ? (
+                            <SignUpOne handleSubmit={handleSubmit} formik={formik}/>
+                          ) : (
+                            <SignUpTwo formik={formik} />
+                          )
+                        }
+                      </form>
                     </div>
                   </div>
                   <div className='mt-10'>

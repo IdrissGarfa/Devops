@@ -1,19 +1,28 @@
 import React, { useState } from 'react'
+import axios from "axios";
+
 import { BsImageFill } from 'react-icons/bs';
 import { CgPoll } from 'react-icons/cg';
 import { IoCloseOutline, IoVideocamOutline } from 'react-icons/io5';
 import { MdLibraryAdd } from "react-icons/md";
 
-const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { addNewPost } from '../../../../features/posts/postsSlice';
+import { useStateContext } from '../../../../context/StateContext';
+
+const Modal = ({ showModal, setShowModal, postData, setPostData, modalImage, setModalImage }) => {
+
+    const { currentUser } = useStateContext();
+
+    const dispatch = useDispatch();
+
+    const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
     const toggleModal = (e) => {
-        console.log(e)
         if (e.target.id === "modalContainer") {
             setShowModal(!showModal);
         }
     }
-
-    const [modalImage, setModalImage] = useState(false);
 
     const convertBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -32,12 +41,30 @@ const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
         const file = event.target.files[0];
         const base64 = await convertBase64(file);
         setPostData({ ...postData, attached: base64 });
-        console.log(postData.attached);
     };
 
     const handleChange = (event) => {
         setPostData({ ...postData, [event.target.name]: event.target.value });
-        console.log(postData.post);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        try {
+            setAddRequestStatus('pending');
+            dispatch(addNewPost({ body: postData })).unwrap();
+            setPostData({
+                ...postData,
+                post: "",
+                attached: ""
+            })
+            setModalImage(false);
+            setShowModal(false);
+        } catch (error) {
+            console.error('Failed to save the post', error);
+        } finally {
+            setAddRequestStatus("idle");
+        }
+
     };
 
     return (
@@ -46,13 +73,13 @@ const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
                 <div
                     className='bg-gray-100 w-full bg-opacity-30 fixed inset-0 z-50 h-screen'>
                     <div id='modalContainer' className='px-3 flex h-full justify-center items-center md:px-3' onClick={(e) => toggleModal(e)}>
-                        <form className='w-full md:2/3 lg:w-[32%] bg-white rounded-lg p-4 shadow-md'>
+                        <form className='w-full md:2/3 lg:w-[32%] bg-white rounded-lg p-4 shadow-md' onSubmit={handleSubmit}>
                             <div className='flex justify-between items-center'>
                                 <div className='flex gap-3'>
-                                    <img className='w-11 h-11 rounded-full object-cover cursor-pointer' src="https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/319998606_844532930209108_8427934400275975120_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=psADqyzzMOIAX8q3fyb&_nc_ht=scontent.ftun16-1.fna&oh=00_AfBRSIB7G1GEYPm_2OW0Nap7yblL52UBqJ5Hz9iQjxQsXw&oe=63CFC6C6" alt="User" />
+                                    <img className='w-11 h-11 rounded-full object-cover cursor-pointer' src="https://img.freepik.com/free-photo/close-up-young-successful-man-smiling-camera-standing-casual-outfit-against-blue-background_1258-66609.jpg?w=2000" alt="User" />
                                     <div className='flex flex-col gap-[2px]'>
-                                        <div className='font-semibold text-sm text-gray-800 cursor-pointer'>Rihab Naili</div>
-                                        <div className='font-medium text-[12px] text-gray-500'>Oraganizer</div>
+                                        <div className='font-semibold text-sm text-gray-800 cursor-pointer'>{currentUser.user.name}</div>
+                                        <div className='font-medium text-[12px] text-gray-500'>Editor</div>
                                     </div>
                                 </div>
                                 <div onClick={() => setShowModal(!showModal)} className='bg-gray-50 rounded-full p-1 cursor-pointer'>
@@ -67,7 +94,7 @@ const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
                                     id="post"
                                     onChange={handleChange}
                                     value={postData.post}
-                                    placeholder="What's on your mind, Rihab"
+                                    placeholder={`What's on your mind, ${currentUser.user.name.split(" ")[0]}`}
                                 >
                                 </textarea>
                             </div>
@@ -78,7 +105,7 @@ const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
                                         {
                                             postData.attached ? (
                                                 <div className='relative w-full h-full rounded-md'>
-                                                    <div onClick={() => setPostData({...postData, attached: ""})} className='absolute right-3 top-3 bg-gray-50 rounded-full p-1 cursor-pointer'>
+                                                    <div onClick={() => setPostData({ ...postData, attached: "" })} className='absolute right-3 top-3 bg-gray-50 rounded-full p-1 cursor-pointer'>
                                                         <IoCloseOutline className='text-xl text-gray-800' />
                                                     </div>
                                                     <img className='rounded-md w-full h-full' src={postData.attached} alt="Post image" />
@@ -96,14 +123,16 @@ const Modal = ({ showModal, setShowModal, postData, setPostData }) => {
                                             )
                                         }
 
-
                                     </div>
                                 )
                             }
 
                             <div className='my-3 ml-1'>
                                 <div className='flex gap-8 py-1'>
-                                    <div onClick={() => setModalImage(!modalImage)} className='flex gap-3 items-center cursor-pointer'>
+                                    <div onClick={() => {
+                                        setModalImage(!modalImage)
+                                        console.log(modalImage);
+                                    }} className='flex gap-3 items-center cursor-pointer'>
                                         <BsImageFill className='text-md text-green-400' />
                                         <span className='text-sm font-medium text-gray-600'>Image</span>
                                     </div>
