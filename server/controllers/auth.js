@@ -23,7 +23,14 @@ const signin = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ result: existUser , token });
+    const user = {
+      id: existUser._id,
+      name: `${existUser.firstName} ${existUser.lastName}`,
+      image: existUser.image,
+      isEditor: existUser.isEditor
+    };
+
+    res.status(200).json({ user , token });
   } catch (err) {
     res.status(500).json({ message: response.unexpectedError});
   }
