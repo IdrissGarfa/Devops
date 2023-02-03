@@ -9,13 +9,14 @@ const userSchema = mongoose.Schema(
     lastName: {
       type: String,
     },
+    image: {
+      type: String,
+      default: ""
+    },
     email: {
       type: String,
     },
     phone: {
-      type: String,
-    },
-    departement: {
       type: String,
     },
     university:{
