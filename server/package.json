@@ -10,14 +10,16 @@
     "type": "git",
     "url": "git+https://github.com/IdrissGarfa/Devops.git"
   },
-  "author": "Devops Isima club",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/IdrissGarfa/Devops/issues"
-  },
+    "author": "Devops Isima club",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/IdrissGarfa/Devops/issues"
+    },
   "homepage": "https://github.com/IdrissGarfa/Devops#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "concurrently": "^7.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
