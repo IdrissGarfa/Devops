@@ -12,7 +12,7 @@ const Header = () => {
     }
 
     return (
-        <header className='w-[90%] mx-auto '>
+        <header className='w-[90%] mx-auto'>
             <div className='min-h-[90px] w-full flex justify-between items-center pt-2'>
                 <div>
                     <Link to="#"><img src={devopslogo} className='w-20 h-11 lg:w-24 lg:h-12' alt="Devops logo" /></Link>
