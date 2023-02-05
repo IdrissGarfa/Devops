@@ -1,7 +1,9 @@
 import React from 'react'
-import Navbar from './Components/Navbar'
-import Posts from './Components/Posts/Posts'
-import Form from './Components/Form/Form'
+
+import Navbar from '../../components/App/Navbar';
+import Posts from '../../components/App/Posts/Posts';
+import Form from '../../components/App/Form/Form';
+
 import { useEffect } from 'react'
 import { useStateContext } from '../../context/StateContext'
 import { useNavigate } from 'react-router-dom'

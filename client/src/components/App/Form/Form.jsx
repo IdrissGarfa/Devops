@@ -3,7 +3,8 @@ import { BsImageFill } from 'react-icons/bs'
 import { CgPoll } from 'react-icons/cg'
 import { IoVideocamOutline } from 'react-icons/io5'
 import Modal from './Modal'
-import { useStateContext } from '../../../../context/StateContext'
+
+import { useStateContext } from '../../../context/StateContext'
 
 const Form = () => {
     const [showModal, setShowModal] = useState(false);

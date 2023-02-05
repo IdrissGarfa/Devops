@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from "axios";
 
 import { BsImageFill } from 'react-icons/bs';
 import { CgPoll } from 'react-icons/cg';
@@ -7,8 +6,8 @@ import { IoCloseOutline, IoVideocamOutline } from 'react-icons/io5';
 import { MdLibraryAdd } from "react-icons/md";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addNewPost } from '../../../../features/posts/postsSlice';
-import { useStateContext } from '../../../../context/StateContext';
+import { addNewPost } from '../../../features/posts/postsSlice';
+import { useStateContext } from '../../../context/StateContext';
 
 const Modal = ({ showModal, setShowModal, postData, setPostData, modalImage, setModalImage }) => {
 

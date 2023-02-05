@@ -1,29 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    html {
-        font-family: Montserrat;
-    }
+  html {
+    font-family: Montserrat;
+    scroll-behavior: smooth;
+  }
 }
 
-@layer utilities{
-    .navLink{
-        @apply relative
-    }
+*::-webkit-scrollbar {
+  width: 8px;
+}
 
-    .navLink::after{
-        @apply content-[''] bg-gradient-to-br from-[#4bacfd] to-[#cb236d]  h-[4px] w-0 absolute left-0 -bottom-[10px] rounded-xl duration-300
-    }
+*::-webkit-scrollbar-track {
+  background: black;
+}
 
-    .navLink:hover::after{
-        @apply w-full
-    }
+*::-webkit-scrollbar-thumb {
+  background: #cb236d;
+  border-radius: 14px;
+}
 
-    .activeNavLink::after{
-        @apply content-[''] bg-gradient-to-br from-[#4bacfd] to-[#cb236d]  h-[4px] w-full absolute left-0 -bottom-[10px] rounded-xl duration-300
-    }
+@layer utilities {
+  .navLink {
+    @apply relative;
+  }
+
+  .navLink::after {
+    @apply content-[''] bg-gradient-to-br from-[#4bacfd] to-[#cb236d]  h-[4px] w-0 absolute left-0 -bottom-[10px] rounded-xl duration-300;
+  }
+
+  .navLink:hover {
+    @apply font-semibold;
+  }
+
+  .navLink:hover::after {
+    @apply w-full;
+  }
+
+  .activeNavLink::after {
+    @apply content-[''] bg-gradient-to-br from-[#4bacfd] to-[#cb236d]  h-[4px] w-full absolute left-0 -bottom-[10px] rounded-xl duration-300;
+  }
+
+  .title {
+    @apply relative;
+  }
+
+  .title::after {
+    @apply content-[''] bg-gradient-to-br from-[#4bacfd] to-[#cb236d]  h-[6px] w-full absolute left-0 -bottom-[19px] rounded-xl duration-300;
+  }
+
+  .toggleMenu{
+    @apply [&>div::before]:translate-y-0 [&>div::before]:rotate-45 [&>div::after]:translate-y-0 [&>div::after]:-rotate-45 [&>div]:bg-transparent
+  }
+
 }

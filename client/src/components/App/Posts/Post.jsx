@@ -10,8 +10,7 @@ import { HiOutlineShare } from 'react-icons/hi'
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-
-import { useStateContext } from '../../../../context/StateContext';
+import { useStateContext } from '../../../context/StateContext';
 import { useState } from 'react';
 
 

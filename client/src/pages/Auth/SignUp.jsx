@@ -13,8 +13,8 @@ import { SiFacebook } from "react-icons/si";
 import { BsInstagram } from "react-icons/bs";
 import { IoLogoTwitter } from "react-icons/Io";
 
-import SignUpOne from './Components/SignUpOne';
-import SignUpTwo from './Components/SignUpTwo';
+import SignUpOne from '../../components/Auth/SignUpOne';
+import SignUpTwo from '../../components/Auth/SignUpTwo';
 
 const signupAPI = "http://localhost:8000/api/auth/signup";
 

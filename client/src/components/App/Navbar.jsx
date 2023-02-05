@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import devopsLogo from "../../../../public/assets/logo.png";
+import devopsLogo from "/public/assets/logo.png";
 
 import { FiSearch } from "react-icons/fi";
 import { AiFillHome, AiOutlineMessage } from "react-icons/ai";
@@ -8,7 +8,7 @@ import { IoVideocamOutline } from "react-icons/io5"
 import { TbMinusVertical } from "react-icons/tb";
 
 import { CgMenuRight } from "react-icons/cg";
-import { useStateContext } from '../../../context/StateContext';
+import { useStateContext } from '../../context/StateContext';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
