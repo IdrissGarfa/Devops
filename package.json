@@ -1,0 +1,21 @@
+{
+  "name": "devops-community",
+  "version": "1.0.0",
+  "description": "Devops community web app",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client; npm run dev",
+    "server": "cd server; npm start",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IdrissGarfa/Devops.git"
+  },
+  "author": "Idriss Garfa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IdrissGarfa/Devops/issues"
+  },
+  "homepage": "https://github.com/IdrissGarfa/Devops#readme"
+}
